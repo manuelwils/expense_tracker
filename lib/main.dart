@@ -1,10 +1,13 @@
-import 'package:expense_tracker/widgets/user_transations.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+import './models/transaction.dart';
+import './widgets/new_transaction.dart';
+import './widgets/transaction_list.dart';
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +19,45 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// showModalBottomSheet(context: ctx, builder: builder) {
-
-// }
-
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: 't1',
+      title: 'New Shoes',
+      amount: 68.23,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Weekly Gloceries',
+      amount: 99.13,
+      date: DateTime.now(),
+    )
+  ];
+
+  void _addNewTransaction(String txTitle, double txAmount) {
+    final newTx = Transaction(
+      id: DateTime.now().toString(),
+      title: txTitle,
+      amount: txAmount,
+      date: DateTime.now(),
+    );
+
+    setState(() {
+      _userTransactions.add(newTx);
+    });
+  }
+
+  void startAddNewTransaction(ctx) {
+    showModalBottomSheet(context: ctx, builder: (bCtx) => NewTransaction(_addNewTransaction) );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +66,7 @@ class MyHomePage extends StatelessWidget {
         title: const Text('Expense Tracker'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => startAddNewTransaction(context),
             icon: const Icon(Icons.add),
           ),
         ],
@@ -48,14 +84,15 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            const UserTransactions(),
+            NewTransaction(_addNewTransaction),
+            TransactionList(_userTransactions),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () => startAddNewTransaction(context),
       ),
     );
   }
