@@ -12,7 +12,7 @@ class TransactionList extends StatelessWidget {
     return Container(
       height: 400,
       child: ListView.builder(
-        itemBuilder: (BuildContext ctx, int index) { 
+        itemBuilder: (BuildContext ctx, int index) {
           return Card(
             elevation: 3,
             child: Row(
@@ -30,7 +30,7 @@ class TransactionList extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    '\$${transactions[index].amount}',
+                    '\$${transactions[index].amount!.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
