@@ -57,10 +57,10 @@ class _NewTransactionState extends State<NewTransaction> {
             ElevatedButton(
               style: TextButton.styleFrom(backgroundColor: Colors.grey.shade50),
               onPressed: () => submitData(),
-              child: const Text(
+              child: Text(
                 'Add Transaction',
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),

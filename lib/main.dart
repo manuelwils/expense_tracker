@@ -11,10 +11,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: MyHomePage(),
+      title: 'Expense Tracker',
+      theme: ThemeData(
+        primarySwatch: Colors.deepPurple,
+        accentColor: Colors.amber,
+        fontFamily: 'Quicksand',
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: const TextStyle(
+                  fontFamily: 'Opensans',
+                  fontSize: 20,
+                ),
+              ),
+        ),
+      ),
+      home: const MyHomePage(),
     );
   }
 }
@@ -85,9 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Container(
               width: double.infinity,
-              color: Colors.blue,
               child: const Card(
-                color: Color.fromRGBO(01, 32, 20, .1),
+                color: Colors.blue,
                 child: Text('CHART!'),
                 elevation: 5,
               ),
