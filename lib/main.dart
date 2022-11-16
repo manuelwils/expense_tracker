@@ -55,8 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void startAddNewTransaction(ctx) {
-    showModalBottomSheet(context: ctx, builder: (bCtx) => NewTransaction(_addNewTransaction) );
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return GestureDetector(
+            child: NewTransaction(_addNewTransaction),
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+          );
+        });
   }
 
   @override
@@ -66,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Expense Tracker'),
         actions: [
           IconButton(
-            onPressed: () => startAddNewTransaction(context),
+            onPressed: () => _startAddNewTransaction(context),
             icon: const Icon(Icons.add),
           ),
         ],
@@ -84,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 5,
               ),
             ),
-            NewTransaction(_addNewTransaction),
             TransactionList(_userTransactions),
           ],
         ),
@@ -92,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => startAddNewTransaction(context),
+        onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }
