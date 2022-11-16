@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
                 headline6: const TextStyle(
                   fontFamily: 'Opensans',
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
         ),

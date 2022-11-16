@@ -44,10 +44,9 @@ class TransactionList extends StatelessWidget {
                   children: [
                     Text(
                       transactions[index].title!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                     Text(
