@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './models/transaction.dart';
 import './widgets/new_transaction.dart';
+import './widgets/chart.dart';
 import './widgets/transaction_list.dart';
 
 void main() => runApp(MyApp());
@@ -46,20 +47,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 68.23,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly Gloceries',
-      amount: 99.13,
-      date: DateTime.now(),
-    )
-  ];
+  final List<Transaction> _userTransactions = [];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions
+        .where((tx) =>
+            tx.date!.isAfter(DateTime.now().subtract(const Duration(days: 7))))
+        .toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -100,20 +95,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: double.infinity,
-              child: const Card(
-                color: Colors.blue,
-                child: Text('CHART!'),
-                elevation: 5,
+        child: _userTransactions.isEmpty
+            ? Container(
+                height: 300,
+                alignment: Alignment.center,
+                child: Column(children: [
+                  Text(
+                    'No transaction to show!',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(height: 10),
+                  Image.asset('assets/images/no-tx.jfif'),
+                ]),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Chart(_recentTransactions),
+                  TransactionList(_userTransactions),
+                ],
               ),
-            ),
-            TransactionList(_userTransactions),
-          ],
-        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
