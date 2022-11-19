@@ -95,26 +95,28 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: _userTransactions.isEmpty
-            ? Container(
-                height: 300,
-                alignment: Alignment.center,
-                child: Column(children: [
-                  Text(
-                    'No transaction to show!',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  const SizedBox(height: 10),
-                  Image.asset('assets/images/no-tx.jfif'),
-                ]),
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Chart(_recentTransactions),
-                  TransactionList(_userTransactions),
-                ],
-              ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Chart(_recentTransactions),
+            _userTransactions.isEmpty
+                ? Container(
+                    height: 300,
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Text(
+                          'No transaction to show!',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        const SizedBox(height: 10),
+                        Image.asset('assets/images/no-tx.jfif'),
+                      ],
+                    ),
+                  )
+                : TransactionList(_userTransactions),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
