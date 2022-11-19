@@ -45,8 +45,12 @@ class Chart extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: groupedTransactionValues.map((tx) {
-          return ChartBar(tx['day'].toString(), tx['amount'].toString(),
-              ((tx['amount'] as double) / totalSpent));
+          return ChartBar(
+              tx['day'].toString(),
+              tx['amount'].toString(),
+              totalSpent == 0.0
+                  ? 0.0
+                  : ((tx['amount'] as double) / totalSpent));
         }).toList(),
       ),
     );
