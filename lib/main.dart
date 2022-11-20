@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import './models/transaction.dart';
 import './widgets/new_transaction.dart';
@@ -9,6 +10,15 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
+
+  final appBar = const AppBarTheme(
+    titleTextStyle: TextStyle(
+      fontFamily: 'Opensans',
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +39,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontFamily: 'Opensans',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        appBarTheme: appBar,
       ),
       home: const MyHomePage(),
     );
@@ -51,7 +54,74 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [];
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: DateTime.now().toString(),
+      title: 'New pairs shoes',
+      amount: 1250,
+      date: DateTime.now(),
+    ),
+  ];
 
   List<Transaction> get _recentTransactions {
     return _userTransactions
@@ -110,21 +180,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Chart(_recentTransactions),
             _userTransactions.isEmpty
-                ? Container(
-                    height: 300,
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Text(
-                          'No transaction to show!',
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        const SizedBox(height: 10),
-                        Image.asset('assets/images/no-tx.jfif'),
-                      ],
-                    ),
-                  )
-                : TransactionList(_userTransactions, _deleteTx),
+                ? noItemToShow()
+                : Container(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: TransactionList(_userTransactions, _deleteTx),
+                  ),
           ],
         ),
       ),
@@ -132,6 +192,23 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _startAddNewTransaction(context),
+      ),
+    );
+  }
+
+  Widget noItemToShow() {
+    return Container(
+      height: 300,
+      alignment: Alignment.center,
+      child: Column(
+        children: [
+          Text(
+            'No transaction to show!',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          const SizedBox(height: 10),
+          Image.asset('assets/images/no-tx.jfif'),
+        ],
       ),
     );
   }
