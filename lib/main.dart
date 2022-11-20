@@ -25,6 +25,9 @@ class MyApp extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
+              button: const TextStyle(
+                color: Colors.white,
+              ),
             ),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -67,6 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _deleteTx(String tx_id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == tx_id);
     });
   }
 
@@ -115,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   )
-                : TransactionList(_userTransactions),
+                : TransactionList(_userTransactions, _deleteTx),
           ],
         ),
       ),
