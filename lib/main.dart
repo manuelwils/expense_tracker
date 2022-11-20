@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import './models/transaction.dart';
 import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
 import './widgets/transaction_list.dart';
+import './widgets/no_item.dart';
 
 void main() => runApp(const MyApp());
 
@@ -187,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Chart(_recentTransactions),
           ),
           _userTransactions.isEmpty
-              ? noItemToShow()
+              ? noItemToShow(context)
               : SizedBox(
                   height: (MediaQuery.of(context).size.height -
                           appBar.preferredSize.height -
@@ -204,23 +204,6 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _startAddNewTransaction(context),
-      ),
-    );
-  }
-
-  Widget noItemToShow() {
-    return Container(
-      height: 300,
-      alignment: Alignment.center,
-      child: Column(
-        children: [
-          Text(
-            'No transaction to show!',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          const SizedBox(height: 10),
-          Image.asset('assets/images/no-tx.jfif'),
-        ],
       ),
     );
   }
