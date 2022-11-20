@@ -6,19 +6,10 @@ import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
 import './widgets/transaction_list.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  final appBar = const AppBarTheme(
-    titleTextStyle: TextStyle(
-      fontFamily: 'Opensans',
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    ),
-  );
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +17,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Expense Tracker',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        accentColor: Colors.amber,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: const TextStyle(
@@ -39,7 +28,17 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-        appBarTheme: appBar,
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'Opensans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        primarySwatch: Colors.deepPurple,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
+            .copyWith(secondary: Colors.amber),
       ),
       home: const MyHomePage(),
     );
@@ -164,29 +163,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expense Tracker'),
-        actions: [
-          IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Chart(_recentTransactions),
-            _userTransactions.isEmpty
-                ? noItemToShow()
-                : Container(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: TransactionList(_userTransactions, _deleteTx),
-                  ),
-          ],
+    var appBar = AppBar(
+      title: const Text('Expense Tracker'),
+      actions: [
+        IconButton(
+          onPressed: () => _startAddNewTransaction(context),
+          icon: const Icon(Icons.add),
         ),
+      ],
+    );
+    return Scaffold(
+      appBar: appBar,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    MediaQuery.of(context).viewPadding.top) *
+                (MediaQuery.of(context).orientation == Orientation.portrait
+                    ? 0.3
+                    : 0.5),
+            child: Chart(_recentTransactions),
+          ),
+          _userTransactions.isEmpty
+              ? noItemToShow()
+              : SizedBox(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).viewPadding.top) *
+                      (MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? 0.7
+                          : 0.5),
+                  child: TransactionList(_userTransactions, _deleteTx),
+                ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
