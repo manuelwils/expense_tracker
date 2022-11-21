@@ -6,7 +6,13 @@ import './widgets/chart.dart';
 import './widgets/transaction_list.dart';
 import './widgets/no_item.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
+  // );
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -161,11 +167,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  bool isSwitched = true;
+
   @override
   Widget build(BuildContext context) {
+    print('is switched: ' + isSwitched.toString());
     var appBar = AppBar(
       title: const Text('Expense Tracker'),
-      actions: [
+      actions: <Widget>[
         IconButton(
           onPressed: () => _startAddNewTransaction(context),
           icon: const Icon(Icons.add),
@@ -176,18 +185,52 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: appBar,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
+        children: <Widget>[
+          Container(
             height: (MediaQuery.of(context).size.height -
                     appBar.preferredSize.height -
                     MediaQuery.of(context).viewPadding.top) *
                 (MediaQuery.of(context).orientation == Orientation.portrait
-                    ? 0.3
-                    : 0.5),
-            child: Chart(_recentTransactions),
+                    ? 0.05
+                    : 0.10),
+            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+            child: Row(
+              children: <Widget>[
+                Text('Show chart'),
+                Switch(
+                  value: isSwitched,
+                  onChanged: (status) {
+                    setState(() {
+                      isSwitched = status;
+                    });
+                  },
+                )
+              ],
+            ),
           ),
+          isSwitched
+              ? SizedBox(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).viewPadding.top) *
+                      (MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? 0.25
+                          : 0.40),
+                  child: Chart(_recentTransactions),
+                )
+              : Row(),
           _userTransactions.isEmpty
-              ? noItemToShow(context)
+              ? SizedBox(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).viewPadding.top) *
+                      (MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? 0.7
+                          : 0.5),
+                  child: noItemToShow(context),
+                )
               : SizedBox(
                   height: (MediaQuery.of(context).size.height -
                           appBar.preferredSize.height -

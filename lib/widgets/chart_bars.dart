@@ -11,7 +11,7 @@ class ChartBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Column(
-        children: [
+        children: <Widget>[
           SizedBox(
             height: constraints.maxHeight * 0.10,
             child: FittedBox(
@@ -27,7 +27,7 @@ class ChartBar extends StatelessWidget {
             height: constraints.maxHeight * 0.70,
             width: 10,
             child: Stack(
-              children: [
+              children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
