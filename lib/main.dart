@@ -167,11 +167,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  bool isSwitched = true;
+  bool _isSwitched = true;
 
   @override
   Widget build(BuildContext context) {
-    print('is switched: ' + isSwitched.toString());
+    final bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     var appBar = AppBar(
       title: const Text('Expense Tracker'),
       actions: <Widget>[
@@ -186,40 +187,39 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Container(
-            height: (MediaQuery.of(context).size.height -
-                    appBar.preferredSize.height -
-                    MediaQuery.of(context).viewPadding.top) *
-                (MediaQuery.of(context).orientation == Orientation.portrait
-                    ? 0.05
-                    : 0.10),
-            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-            child: Row(
-              children: <Widget>[
-                Text('Show chart'),
-                Switch(
-                  value: isSwitched,
-                  onChanged: (status) {
-                    setState(() {
-                      isSwitched = status;
-                    });
-                  },
-                )
-              ],
+          if (isLandscape)
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).viewPadding.top) *
+                  (MediaQuery.of(context).orientation == Orientation.portrait
+                      ? 0.05
+                      : 0.10),
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+              child: Row(
+                children: <Widget>[
+                  const Text('Show chart'),
+                  Switch(
+                    value: _isSwitched,
+                    onChanged: (status) {
+                      setState(() {
+                        _isSwitched = status;
+                      });
+                    },
+                  )
+                ],
+              ),
             ),
-          ),
-          isSwitched
-              ? SizedBox(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).viewPadding.top) *
-                      (MediaQuery.of(context).orientation ==
-                              Orientation.portrait
-                          ? 0.25
-                          : 0.40),
-                  child: Chart(_recentTransactions),
-                )
-              : Row(),
+          if (_isSwitched)
+            SizedBox(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).viewPadding.top) *
+                  (MediaQuery.of(context).orientation == Orientation.portrait
+                      ? 0.25
+                      : 0.40),
+              child: Chart(_recentTransactions),
+            ),
           _userTransactions.isEmpty
               ? SizedBox(
                   height: (MediaQuery.of(context).size.height -
