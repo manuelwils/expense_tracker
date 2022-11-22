@@ -1,51 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import './utils/helper.dart';
+import 'widgets/home_page.dart';
+import 'widgets/theme_data.dart';
 
 import './models/transaction.dart';
 import './widgets/new_transaction.dart';
-import './widgets/chart.dart';
-import './widgets/transaction_list.dart';
-import './widgets/no_item.dart';
 
-void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations(
-  //   [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
-  // );
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Expense Tracker',
-      theme: ThemeData(
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: const TextStyle(
-                fontFamily: 'Opensans',
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              button: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-        appBarTheme: const AppBarTheme(
-          titleTextStyle: TextStyle(
-            fontFamily: 'Opensans',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        primarySwatch: Colors.deepPurple,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
-            .copyWith(secondary: Colors.amber),
-      ),
+      theme: themeData,
       home: const MyHomePage(),
     );
   }
@@ -59,74 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: DateTime.now().toString(),
-      title: 'New pairs shoes',
-      amount: 1250,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _userTransactions = [];
 
   List<Transaction> get _recentTransactions {
     return _userTransactions
@@ -167,12 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  bool _isSwitched = true;
-
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final bool isLandscape = Helper(context).isLandscape();
     var appBar = AppBar(
       title: const Text('Expense Tracker'),
       actions: <Widget>[
@@ -184,70 +88,21 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     return Scaffold(
       appBar: appBar,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          if (isLandscape)
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).viewPadding.top) *
-                  (MediaQuery.of(context).orientation == Orientation.portrait
-                      ? 0.05
-                      : 0.10),
-              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-              child: Row(
-                children: <Widget>[
-                  const Text('Show chart'),
-                  Switch(
-                    value: _isSwitched,
-                    onChanged: (status) {
-                      setState(() {
-                        _isSwitched = status;
-                      });
-                    },
-                  )
-                ],
-              ),
-            ),
-          if (_isSwitched)
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).viewPadding.top) *
-                  (MediaQuery.of(context).orientation == Orientation.portrait
-                      ? 0.25
-                      : 0.40),
-              child: Chart(_recentTransactions),
-            ),
-          _userTransactions.isEmpty
-              ? SizedBox(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).viewPadding.top) *
-                      (MediaQuery.of(context).orientation ==
-                              Orientation.portrait
-                          ? 0.7
-                          : 0.5),
-                  child: noItemToShow(context),
-                )
-              : SizedBox(
-                  height: (MediaQuery.of(context).size.height -
-                          appBar.preferredSize.height -
-                          MediaQuery.of(context).viewPadding.top) *
-                      (MediaQuery.of(context).orientation ==
-                              Orientation.portrait
-                          ? 0.7
-                          : 0.5),
-                  child: TransactionList(_userTransactions, _deleteTx),
-                ),
-        ],
+      body: SafeArea(
+        child: HomePage(
+          appBar,
+          _recentTransactions,
+          _userTransactions,
+          _deleteTx,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
-      ),
+      floatingActionButton: Platform.isIOS || isLandscape
+          ? Container()
+          : FloatingActionButton(
+              child: const Icon(Icons.add),
+              onPressed: () => _startAddNewTransaction(context),
+            ),
     );
   }
 }

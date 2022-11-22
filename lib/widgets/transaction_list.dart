@@ -50,13 +50,13 @@ class TransactionList extends StatelessWidget {
                       Icons.delete,
                       color: Colors.red,
                     ),
-                    label: Text(
+                    label: const Text(
                       'Delete',
                       style: TextStyle(color: Colors.red),
                     ),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                        Color.fromRGBO(250, 250, 250, 1),
+                        const Color.fromRGBO(250, 250, 250, 1),
                       ),
                     ),
                   )
