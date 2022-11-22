@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
+import '../utils/helper.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -11,6 +12,7 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = Helper(context).getSize();
     return ListView.builder(
       itemBuilder: (BuildContext ctx, int index) {
         return Card(
@@ -41,11 +43,28 @@ class TransactionList extends StatelessWidget {
                 color: Colors.grey,
               ),
             ),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              color: Theme.of(context).errorColor,
-              onPressed: () => deleteTx(transactions[index].id),
-            ),
+            trailing: size.width > 400
+                ? ElevatedButton.icon(
+                    onPressed: () => deleteTx(transactions[index].id),
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    label: Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Color.fromRGBO(250, 250, 250, 1),
+                      ),
+                    ),
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.delete),
+                    color: Theme.of(context).errorColor,
+                    onPressed: () => deleteTx(transactions[index].id),
+                  ),
           ),
         );
       },
