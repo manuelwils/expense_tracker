@@ -15,7 +15,7 @@ class TransactionList extends StatelessWidget {
     Size size = Helper(context).getSize();
     return ListView.builder(
       itemBuilder: (BuildContext ctx, int index) {
-        return TransactionListWidget(
+        return TransactionItem(
           transactions: transactions,
           size: size,
           deleteTx: deleteTx,
@@ -27,8 +27,8 @@ class TransactionList extends StatelessWidget {
   }
 }
 
-class TransactionListWidget extends StatelessWidget {
-  const TransactionListWidget({
+class TransactionItem extends StatelessWidget {
+  const TransactionItem({
     Key? key,
     required this.transactions,
     required this.size,
