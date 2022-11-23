@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Platform.isIOS || isLandscape
+      floatingActionButton: isLandscape
           ? Container()
           : FloatingActionButton(
               child: const Icon(Icons.add),
