@@ -9,10 +9,10 @@ import 'widgets/theme_data.dart';
 import './models/transaction.dart';
 import './widgets/new_transaction.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +55,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _deleteTx(String tx_id) {
+  void _deleteTx(String txId) {
     setState(() {
-      _userTransactions.removeWhere((tx) => tx.id == tx_id);
+      _userTransactions.removeWhere((tx) => tx.id == txId);
     });
   }
 
