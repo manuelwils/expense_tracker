@@ -18,7 +18,6 @@ class _WidgetBindingManagerState extends State<WidgetBindingManager> with Widget
   @override
   void initState() {
     print('init running here');
-    
     super.initState();
   }
 
