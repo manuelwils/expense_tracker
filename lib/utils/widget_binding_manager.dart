@@ -11,12 +11,14 @@ class WidgetBindingManager extends StatefulWidget {
 class _WidgetBindingManagerState extends State<WidgetBindingManager> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    print('build running');
+    print('build running here');
     return widget.child!;
   }
 
+  @override
   void initState() {
-    print('init running');
+    print('init running here');
+    
     super.initState();
   }
 
@@ -26,11 +28,13 @@ class _WidgetBindingManagerState extends State<WidgetBindingManager> with Widget
     super.didUpdateWidget(oldWidget);
   }
 
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print('current state is: $state');
     super.didChangeAppLifecycleState(state);
   }
 
+  @override
   void dispose() {
     print('dispose running');
     super.dispose();
