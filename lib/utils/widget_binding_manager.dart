@@ -18,6 +18,7 @@ class _WidgetBindingManagerState extends State<WidgetBindingManager> with Widget
   @override
   void initState() {
     print('init running here');
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -29,13 +30,14 @@ class _WidgetBindingManagerState extends State<WidgetBindingManager> with Widget
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('current state is: $state');
+    print("\n\n\n\t current state is: $state \n\n\n\t");
     super.didChangeAppLifecycleState(state);
   }
 
   @override
   void dispose() {
     print('dispose running');
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }
