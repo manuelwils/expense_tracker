@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import './utils/widget_binding_manager.dart';
 import './utils/helper.dart';
 import 'widgets/home_page.dart';
 import 'widgets/theme_data.dart';
@@ -16,11 +17,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Expense Tracker',
-      theme: themeData,
-      home: const MyHomePage(),
+    return WidgetBindingManager(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Expense Tracker',
+        theme: themeData,
+        home: const MyHomePage(),
+      ),
     );
   }
 }
